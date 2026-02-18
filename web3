@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethena Join Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#0f172a;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.container {
+  background:#111827;
+  padding:40px;
+  border-radius:16px;
+  width:400px;
+  box-shadow:0 0 40px rgba(0,255,200,0.15);
+}
+h1 {
+  text-align:center;
+  margin-bottom:30px;
+}
+input, select {
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:8px;
+  border:none;
+  background:#1f2937;
+  color:white;
+}
+button {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#00f5a0,#00d9f5);
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+}
+.hidden {
+  display:none;
+}
+.ref-box {
+  font-size:12px;
+  color:#9ca3af;
+  margin-bottom:10px;
+}
+.connect-btn {
+  background:#1f2937;
+  margin-bottom:15px;
+  border:1px solid #00f5a0;
+  color:#00f5a0;
+}
+.success {
+  text-align:center;
+  margin-top:15px;
+  color:#00f5a0;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Join Ethena</h1>
+
+  <div class="ref-box" id="refDisplay"></div>
+
+  <button class="connect-btn">🔗 Connect Wallet</button>
+
+  <input type="text" id="wallet" placeholder="Ethereum Wallet Address (0x...)" required>
+
+  <select id="token">
+    <option value="">Select Token</option>
+    <option value="USDe">USDe</option>
+    <option value="ETH">ETH</option>
+  </select>
+
+  <div id="usdeSection" class="hidden">
+    <input type="number" placeholder="Amount of USDe">
+  </div>
+
+  <div id="ethSection" class="hidden">
+    <input type="number" placeholder="Amount of ETH">
+  </div>
+
+  <button onclick="submitForm()">Submit Application</button>
+
+  <div class="success" id="successMessage"></div>
+</div>
+
+<script>
+// Auto capture referral code
+const params = new URLSearchParams(window.location.search);
+const ref = params.get("ref") || "9cj5u";
+document.getElementById("refDisplay").innerText = "Referral Code: " + ref;
+
+// Token conditional logic
+document.getElementById("token").addEventListener("change", function() {
+  document.getElementById("usdeSection").classList.add("hidden");
+  document.getElementById("ethSection").classList.add("hidden");
+
+  if(this.value === "USDe") {
+    document.getElementById("usdeSection").classList.remove("hidden");
+  }
+  if(this.value === "ETH") {
+    document.getElementById("ethSection").classList.remove("hidden");
+  }
+});
+
+// Fake submission
+function submitForm() {
+  const wallet = document.getElementById("wallet").value;
+
+  if(!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
+    alert("Invalid Ethereum wallet address");
+    return;
+  }
+
+  document.getElementById("successMessage").innerText =
+    "Application submitted successfully!";
+}
+</script>
+
+</body>
+</html>
